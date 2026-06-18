@@ -1,0 +1,25 @@
+{
+  "name": "zumi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ZUMI — premium technology & AI transformation studio platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @zumi/web",
+    "dev:web": "npm run dev --workspace @zumi/web",
+    "dev:api": "npm run dev --workspace @zumi/api",
+    "build": "npm run build --workspace @zumi/web",
+    "lint": "npm run lint --workspace @zumi/web",
+    "db:generate": "npm run generate --workspace @zumi/db",
+    "db:migrate": "npm run migrate --workspace @zumi/db",
+    "db:push": "npm run push --workspace @zumi/db",
+    "db:seed": "npm run seed --workspace @zumi/db",
+    "db:studio": "npm run studio --workspace @zumi/db"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
