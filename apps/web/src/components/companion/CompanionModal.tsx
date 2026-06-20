@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useExperience } from '@/lib/store';
 import { useCompanion } from '@/lib/companionStore';
+import { ThoughtBubbles } from './ThoughtBubbles';
 import { EASE } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +31,8 @@ export function CompanionModal() {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [recommended, setRecommended] = useState<string | null>(null);
+  const [lastUser, setLastUser] = useState('');
+  const [thoughtNonce, setThoughtNonce] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const seeded = useRef(false);
 
@@ -67,6 +70,9 @@ export function CompanionModal() {
     setInput('');
     setBusy(true);
     setCompanion('thinking');
+    // feed the robot's inner-monologue with what was just said
+    setLastUser(text);
+    setThoughtNonce((n) => n + 1);
 
     try {
       const res = await fetch('/api/assistant', {
@@ -129,6 +135,7 @@ export function CompanionModal() {
             {/* astronaut */}
             <div className="relative">
               <CompanionScene />
+              <ThoughtBubbles active={open} userText={lastUser} nonce={thoughtNonce} />
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}

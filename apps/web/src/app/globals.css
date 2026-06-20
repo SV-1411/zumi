@@ -55,19 +55,46 @@
     color: #fff;
   }
 
-  /* refined custom scrollbar */
+  /* refined custom scrollbar — slim, premium, accent on interaction */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(79, 111, 255, 0.35) transparent;
+  }
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 9px;
+    height: 9px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(
+      180deg,
+      rgba(79, 111, 255, 0.35),
+      rgba(79, 111, 255, 0.12)
+    );
+    border: 2px solid transparent;
+    background-clip: padding-box;
     border-radius: 999px;
+    transition: background 0.3s var(--e-out);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(79, 111, 255, 0.4);
+    background: linear-gradient(
+      180deg,
+      rgba(79, 111, 255, 0.75),
+      rgba(79, 111, 255, 0.35)
+    );
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* hide the native cursor once the custom one is active (JS only adds
+     .has-cursor when a fine pointer / mouse is actually present) */
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
   }
 }
 
@@ -102,6 +129,222 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* gradient hairline divider */
+  .hairline {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.12) 20%,
+      rgba(255, 255, 255, 0.12) 80%,
+      transparent
+    );
+  }
+
+  /* halo glows — a restrained accent / green / brown family for ambient patches */
+  .accent-glow {
+    background: radial-gradient(
+      circle at center,
+      rgba(79, 111, 255, 0.22),
+      transparent 65%
+    );
+  }
+  .glow-blue {
+    background: radial-gradient(
+      circle at center,
+      rgba(79, 111, 255, 0.2),
+      transparent 66%
+    );
+  }
+  .glow-green {
+    background: radial-gradient(
+      circle at center,
+      rgba(63, 196, 137, 0.45),
+      rgba(63, 196, 137, 0.12) 45%,
+      transparent 70%
+    );
+  }
+  .glow-brown {
+    background: radial-gradient(
+      circle at center,
+      rgba(176, 120, 70, 0.48),
+      rgba(176, 120, 70, 0.14) 45%,
+      transparent 70%
+    );
+  }
+  /* multi-stop ambient field blending all three, very soft */
+  .glow-field {
+    background:
+      radial-gradient(40% 50% at 18% 30%, rgba(79, 111, 255, 0.16), transparent 70%),
+      radial-gradient(38% 48% at 82% 28%, rgba(63, 196, 137, 0.13), transparent 70%),
+      radial-gradient(46% 52% at 50% 88%, rgba(166, 119, 77, 0.14), transparent 72%);
+  }
+
+  /* gradient text — restrained, accent → soft, never rainbow */
+  .text-gradient {
+    background: linear-gradient(180deg, #ffffff 0%, #9fb0ff 130%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Custom cursor — three eased layers: trailing glow, rotating gradient ring
+   (with velocity-based elastic stretch), and a crisp center dot.
+---------------------------------------------------------------------------- */
+@keyframes zumi-cursor-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.zumi-cursor__glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9996;
+  width: 78px;
+  height: 78px;
+  margin: -39px 0 0 -39px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(79, 111, 255, 0.4), transparent 68%);
+  filter: blur(7px);
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity 0.35s var(--e-out), width 0.35s var(--e-out),
+    height 0.35s var(--e-out), margin 0.35s var(--e-out);
+}
+.zumi-cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  pointer-events: none;
+  will-change: transform;
+  transition: width 0.34s var(--e-out), height 0.34s var(--e-out),
+    margin 0.34s var(--e-out), opacity 0.3s var(--e-out);
+}
+/* the rotating gradient stroke (spins independently of the ring's stretch) */
+.zumi-cursor__spin {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(79, 111, 255, 0.9) 32%,
+    rgba(221, 228, 255, 1) 58%,
+    rgba(79, 111, 255, 0.5) 72%,
+    transparent 88%
+  );
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 1.6px),
+    #000 calc(100% - 1.6px)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 1.6px),
+    #000 calc(100% - 1.6px)
+  );
+  animation: zumi-cursor-spin 2.6s linear infinite;
+}
+.zumi-cursor__dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 999px;
+  background: #f7f7f7;
+  box-shadow: 0 0 12px rgba(247, 247, 247, 0.9);
+  pointer-events: none;
+  will-change: transform;
+  transition: width 0.2s var(--e-out), height 0.2s var(--e-out),
+    margin 0.2s var(--e-out), opacity 0.3s var(--e-out);
+}
+/* enlarged hover state over interactive targets */
+.zumi-cursor__ring.is-hover {
+  width: 66px;
+  height: 66px;
+  margin: -33px 0 0 -33px;
+}
+.zumi-cursor__ring.is-hover .zumi-cursor__spin {
+  animation-duration: 1.4s;
+}
+.zumi-cursor__glow.is-hover {
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
+}
+.zumi-cursor__dot.is-hover {
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+.zumi-cursor__ring.is-down {
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+}
+.zumi-cursor__glow.is-hidden,
+.zumi-cursor__ring.is-hidden,
+.zumi-cursor__dot.is-hidden {
+  opacity: 0;
+}
+
+/* ----------------------------------------------------------------------------
+   Scroll progress bar (top of viewport)
+---------------------------------------------------------------------------- */
+.zumi-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  box-shadow: 0 0 18px rgba(79, 111, 255, 0.6);
+}
+
+/* ----------------------------------------------------------------------------
+   Marquee
+---------------------------------------------------------------------------- */
+@keyframes zumi-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: zumi-marquee var(--marquee-dur, 38s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* fine grain noise overlay for filmic depth */
+.noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* respect reduced motion */

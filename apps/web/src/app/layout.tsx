@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { SmoothScroll } from '@/components/providers/SmoothScroll';
 import { PointerProvider } from '@/components/providers/PointerProvider';
+import { Cursor } from '@/components/providers/Cursor';
+import { ScrollProgress } from '@/components/providers/ScrollProgress';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -49,6 +51,8 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-background text-text-primary antialiased">
         <PointerProvider />
+        <ScrollProgress />
+        <Cursor />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

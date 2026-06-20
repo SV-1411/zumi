@@ -30,15 +30,19 @@ export function Footer() {
               Platform
             </p>
             <ul className="space-y-2 text-sm text-text-secondary">
-              {['AI Agents', 'Healthcare', 'ERP & CRM', 'Automation', 'ZUMI Labs'].map(
-                (x) => (
-                  <li key={x}>
-                    <a href="#services" className="hover:text-text-primary">
-                      {x}
-                    </a>
-                  </li>
-                )
-              )}
+              {[
+                { label: 'AI Agents', href: '#services' },
+                { label: 'Healthcare', href: '#healthcare' },
+                { label: 'AI Receptionist', href: '#receptionist' },
+                { label: 'Selected Work', href: '#work' },
+                { label: 'ZUMI Labs', href: '#labs' },
+              ].map((x) => (
+                <li key={x.label}>
+                  <a href={x.href} className="hover:text-text-primary">
+                    {x.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 

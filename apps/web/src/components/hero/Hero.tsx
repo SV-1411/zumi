@@ -23,6 +23,9 @@ export function Hero() {
       {/* faint engineered grid */}
       <div className="grid-veil pointer-events-none absolute inset-0" />
 
+      {/* hero keeps a single restrained blue accent — no brown/green here */}
+      <div className="glow-blue pointer-events-none absolute -left-32 top-10 h-[420px] w-[520px] blur-3xl opacity-60" />
+
       {/* Phase 1 — floating energy core */}
       <div className="absolute inset-0">
         {loaded && <CoreScene intensity={intent ? 1.25 : 1} />}
