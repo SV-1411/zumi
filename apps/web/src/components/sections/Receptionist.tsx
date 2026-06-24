@@ -8,6 +8,7 @@ import {
   RECEPTION_SUMMARY,
 } from '@/lib/receptionist';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { VoiceDemo } from '@/components/sections/VoiceDemo';
 import { EASE } from '@/lib/motion';
 import { useExperience } from '@/lib/store';
 
@@ -64,6 +65,8 @@ export function Receptionist() {
           lede="Watch a real call play out — greeting, qualifying, booking and escalation — then see exactly what it captures and hands to your team."
           className="mb-16"
         />
+
+        <VoiceDemo />
 
         <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
           {/* call transcript */}
