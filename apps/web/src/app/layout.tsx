@@ -5,6 +5,7 @@ import { SmoothScroll } from '@/components/providers/SmoothScroll';
 import { PointerProvider } from '@/components/providers/PointerProvider';
 import { Cursor } from '@/components/providers/Cursor';
 import { ScrollProgress } from '@/components/providers/ScrollProgress';
+import { CinemaOverlay } from '@/components/providers/CinemaOverlay';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -15,29 +16,31 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://zumi.studio'),
   title: {
-    default: 'ZUMI — Technology & AI Transformation Studio',
+    default: 'ZUMI — A Multidisciplinary Studio',
     template: '%s · ZUMI',
   },
   description:
-    'ZUMI builds AI agents, custom software, and enterprise platforms for companies shaping the future of business operations.',
+    'ZUMI is a multidisciplinary studio — design, video, web, automation and AI, made in one room and shipped live.',
   keywords: [
-    'AI agents',
-    'AI automation',
-    'custom software',
-    'healthcare HMS',
-    'enterprise dashboards',
-    'digital transformation',
+    'ZUMI',
+    'design studio',
+    'video editing',
+    'web development',
+    'automation',
+    'AI agency',
+    'branding',
+    'creative studio',
   ],
   openGraph: {
-    title: 'ZUMI — Technology & AI Transformation Studio',
+    title: 'ZUMI — A Multidisciplinary Studio',
     description:
-      'We design and engineer AI systems and enterprise software for the future of business operations.',
+      'Design, video, web, automation and AI — one studio, shipped live.',
     type: 'website',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0B0B0B',
+  themeColor: '#F1F0EC',
   width: 'device-width',
   initialScale: 1,
 };
@@ -48,11 +51,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-background text-text-primary antialiased">
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body
+        className="min-h-screen bg-background text-text-primary antialiased"
+        suppressHydrationWarning
+      >
         <PointerProvider />
         <ScrollProgress />
         <Cursor />
+        <CinemaOverlay />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

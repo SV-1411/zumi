@@ -1,6 +1,24 @@
 'use client';
 
-import { MARQUEE_ITEMS } from '@/lib/stack';
+// What we do, at a glance — one drifting ticker across every discipline.
+const MARQUEE_ITEMS = [
+  'Brand Identity',
+  'Web Design',
+  'Video Editing',
+  'Motion Graphics',
+  'E-commerce',
+  'Web Apps',
+  'Automation',
+  'AI Agents',
+  'Content',
+  'UI / UX',
+  'Product Design',
+  'Reels & Ads',
+  'Growth',
+  'Copywriting',
+  'Design Systems',
+  '3D & WebGL',
+];
 
 /**
  * Infinite capability ticker — two rows drifting in opposite directions. Pure
@@ -43,7 +61,7 @@ export function Marquee() {
   return (
     <section
       aria-hidden
-      className="relative space-y-4 overflow-hidden border-y border-white/8 py-12"
+      className="relative space-y-4 overflow-hidden border-y border-black/8 py-12"
       style={{
         maskImage:
           'linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent)',

@@ -9,19 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ZUMI core palette — elegant, sophisticated, premium (not neon)
-        background: '#0B0B0B',
-        surface: '#151515',
-        'surface-2': '#1C1C1C',
-        line: 'rgba(255,255,255,0.08)',
+        // ZUMI core palette — LIGHT editorial (white · gray · black)
+        background: '#F1F0EC',
+        surface: '#FFFFFF',
+        'surface-2': '#E8E7E1',
+        line: 'rgba(0,0,0,0.10)',
+        ink: '#0B0B0B',
         text: {
-          primary: '#F7F7F7',
-          secondary: '#A0A0A0',
+          primary: '#0B0B0B',
+          secondary: '#6C6C66',
         },
         accent: {
-          DEFAULT: '#4F6FFF',
-          soft: '#DDE4FF',
-          deep: '#2C3FB0',
+          DEFAULT: '#3B40FF',
+          soft: '#6B74FF',
+          deep: '#1F23C4',
         },
       },
       fontFamily: {

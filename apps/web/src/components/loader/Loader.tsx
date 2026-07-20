@@ -1,134 +1,114 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { LoaderScene } from './LoaderScene';
 import { useExperience } from '@/lib/store';
 import { EASE } from '@/lib/motion';
-
-const WORD = 'ZUMI'.split('');
+import { TextVideoMask } from '@/framer/Client';
 
 /**
- * Cinematic entry sequence:
- *   particles assemble -> structure forms -> "ZUMI" reveals letter by letter
- *   -> core morphs (flash) -> world is revealed.
- * The percentage drives the 3D assembly via a shared ref (no re-render churn).
+ * Title-card entry, light edition. ZUMI is cut out of moving footage of the
+ * world; a hairline fills, then the wordmark rushes forward and dissolves into
+ * the site, it opens like a film, not a spinner.
  */
+const FILM = '/media/world.mp4';
+
 export function Loader() {
-  const progressRef = useRef(0);
-  const [display, setDisplay] = useState(0);
-  const [done, setDone] = useState(false);
-  const [morphing, setMorphing] = useState(false);
   const setLoaded = useExperience((s) => s.setLoaded);
+  const [done, setDone] = useState(false);
+  const [reveal, setReveal] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [fontSize, setFontSize] = useState('220px');
 
   useEffect(() => {
-    let raf = 0;
-    const start = performance.now();
-    const DURATION = 3200;
+    if (window.location.search.includes('skipintro')) {
+      setDone(true);
+      setLoaded(true);
+      return;
+    }
+    setFontSize(`${Math.min(window.innerWidth * 0.26, 340)}px`);
 
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / DURATION);
-      // ease-in-out for a deliberate, cinematic climb
-      const eased =
-        t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      progressRef.current = eased;
-      setDisplay(Math.round(eased * 100));
+    // timer-driven (NOT rAF) so it always completes, rAF is throttled/paused
+    // when the tab is hidden or under heavy load; the intro must never hang.
+    const DUR = 2400;
+    const start = Date.now();
+    const iv = setInterval(() => {
+      const p = Math.min(100, ((Date.now() - start) / DUR) * 100);
+      setProgress(Math.round(p));
+      if (p >= 100) clearInterval(iv);
+    }, 40);
+    const tReveal = setTimeout(() => setReveal(true), DUR);
+    const tDone = setTimeout(() => setDone(true), DUR + 900);
+    const tLoaded = setTimeout(() => setLoaded(true), DUR + 1500);
 
-      if (t < 1) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        // morph beat, then hand off to the world
-        setMorphing(true);
-        setTimeout(() => {
-          setDone(true);
-          setTimeout(() => setLoaded(true), 900);
-        }, 650);
-      }
+    return () => {
+      clearInterval(iv);
+      clearTimeout(tReveal);
+      clearTimeout(tDone);
+      clearTimeout(tLoaded);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
   }, [setLoaded]);
 
   return (
     <AnimatePresence>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-background"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.9, ease: EASE }}
+          transition={{ duration: 0.7, ease: EASE }}
         >
-          {/* 3D assembly */}
-          <motion.div
-            className="absolute inset-0"
-            animate={
-              morphing
-                ? { scale: 1.35, filter: 'blur(6px)', opacity: 0.6 }
-                : { scale: 1, filter: 'blur(0px)', opacity: 1 }
-            }
-            transition={{ duration: 0.65, ease: EASE }}
+          {/* ghost letterforms so ZUMI always reads even over bright footage */}
+          <div
+            className="pointer-events-none absolute select-none font-display font-extrabold tracking-tightest text-black/[0.06]"
+            style={{ fontSize }}
           >
-            <Canvas
-              camera={{ position: [0, 0, 7], fov: 45 }}
-              dpr={[1, 1.6]}
-              gl={{ alpha: true, antialias: true }}
-            >
-              <LoaderScene progressRef={progressRef} />
-            </Canvas>
+            ZUMI
+          </div>
+
+          <motion.div
+            className="relative flex items-center justify-center"
+            style={{ width: '100%', height: '46vh' }}
+            initial={{ scale: 1.03, opacity: 0 }}
+            animate={
+              reveal
+                ? { scale: 8, opacity: 0, filter: 'blur(6px)' }
+                : { scale: 1, opacity: 1, filter: 'blur(0px)' }
+            }
+            transition={{
+              duration: reveal ? 1.0 : 0.9,
+              ease: reveal ? [0.7, 0, 0.3, 1] : EASE,
+            }}
+          >
+            <TextVideoMask
+              text="ZUMI"
+              videoUrl={FILM}
+              useVideoFile={false}
+              backgroundColor="transparent"
+              textColor="#0B0B0B"
+              font={{
+                fontSize,
+                fontWeight: 800,
+                letterSpacing: '-0.04em',
+                fontFamily: 'Satoshi, General Sans, Inter, sans-serif',
+              }}
+            />
           </motion.div>
 
-          {/* morph flash */}
-          <AnimatePresence>
-            {morphing && (
-              <motion.div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    'radial-gradient(circle at 50% 50%, rgba(79,111,255,0.35), transparent 55%)',
-                }}
-                initial={{ opacity: 0, scale: 0.6 }}
-                animate={{ opacity: [0, 1, 0], scale: 1.6 }}
-                transition={{ duration: 0.7, ease: EASE }}
-              />
-            )}
-          </AnimatePresence>
-
-          {/* wordmark */}
-          <div className="relative z-10 flex select-none gap-[0.12em] text-[clamp(3rem,12vw,9rem)] font-display font-semibold tracking-tightest">
-            {WORD.map((ch, i) => (
-              <motion.span
-                key={ch + i}
-                initial={{ opacity: 0, y: '0.5em', filter: 'blur(10px)' }}
-                animate={{ opacity: 1, y: '0em', filter: 'blur(0px)' }}
-                transition={{
-                  delay: 0.5 + i * 0.18,
-                  duration: 0.7,
-                  ease: EASE,
-                }}
-                className="text-text-primary"
-                style={{ textShadow: '0 0 40px rgba(79,111,255,0.45)' }}
-              >
-                {ch}
-              </motion.span>
-            ))}
-          </div>
-
-          {/* percentage + progress line */}
-          <div className="absolute bottom-12 left-0 right-0 z-10 flex flex-col items-center gap-4">
-            <div className="font-display text-sm tabular-nums text-text-secondary">
-              {String(display).padStart(3, '0')}
-              <span className="text-accent">%</span>
+          <motion.div
+            className="absolute bottom-14 left-0 right-0 flex flex-col items-center gap-4"
+            animate={{ opacity: reveal ? 0 : 1, y: reveal ? 10 : 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
+            <div className="text-[10px] uppercase tracking-[0.5em] text-text-secondary">
+              A multidisciplinary studio
             </div>
-            <div className="h-px w-[min(38vw,360px)] overflow-hidden bg-white/10">
-              <motion.div
-                className="h-full bg-accent"
-                style={{ width: `${display}%` }}
+            <div className="h-px w-[min(40vw,360px)] overflow-hidden bg-black/10">
+              <div
+                className="h-full bg-ink transition-[width] duration-100"
+                style={{ width: `${progress}%` }}
               />
             </div>
-            <div className="text-[10px] uppercase tracking-[0.42em] text-text-secondary/70">
-              Initialising experience
-            </div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

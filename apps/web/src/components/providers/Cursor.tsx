@@ -20,6 +20,7 @@ export function Cursor() {
   const glowRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Use `any-pointer` (not `pointer`) so a mouse on a touchscreen laptop —
@@ -33,6 +34,7 @@ export function Cursor() {
     const glow = glowRef.current!;
     const ring = ringRef.current!;
     const dot = dotRef.current!;
+    const label = labelRef.current!;
     document.documentElement.classList.add('has-cursor');
 
     const cx = window.innerWidth / 2;
@@ -41,12 +43,13 @@ export function Cursor() {
     const dotPos = { x: cx, y: cy };
     const ringPos = { x: cx, y: cy };
     const glowPos = { x: cx, y: cy };
+    const labelPos = { x: cx, y: cy };
     let stretch = 0; // eased velocity magnitude → elongation
     let angle = 0; // direction of travel (radians)
     let raf = 0;
     let visible = false;
 
-    const layers = [glow, ring, dot];
+    const layers = [glow, ring, dot, label];
     const show = () => {
       if (visible) return;
       visible = true;
@@ -59,8 +62,24 @@ export function Cursor() {
       show();
     };
     const onOver = (e: MouseEvent) => {
-      const hovering = !!(e.target as Element)?.closest?.(HOVER_SELECTOR);
+      const el = (e.target as Element)?.closest?.(HOVER_SELECTOR);
+      const hovering = !!el;
       layers.forEach((l) => l.classList.toggle('is-hover', hovering));
+
+      // contextual label — any element carrying data-cursor-label turns the
+      // cursor into a "See more ↗" style pill.
+      const labelled = (e.target as Element)?.closest?.('[data-cursor-label]');
+      const text = labelled?.getAttribute('data-cursor-label');
+      if (text) {
+        label.textContent = text;
+        label.classList.add('is-on');
+        ring.classList.add('is-labeled');
+        glow.classList.add('is-labeled');
+      } else {
+        label.classList.remove('is-on');
+        ring.classList.remove('is-labeled');
+        glow.classList.remove('is-labeled');
+      }
     };
     const onDown = () => ring.classList.add('is-down');
     const onUp = () => ring.classList.remove('is-down');
@@ -96,6 +115,11 @@ export function Cursor() {
       glowPos.y += (target.y - glowPos.y) * 0.1;
       glow.style.transform = `translate(${glowPos.x}px, ${glowPos.y}px)`;
 
+      // label pill — eases behind the dot, offset below-right of the pointer
+      labelPos.x += (target.x - labelPos.x) * 0.22;
+      labelPos.y += (target.y - labelPos.y) * 0.22;
+      label.style.transform = `translate(${labelPos.x}px, ${labelPos.y}px)`;
+
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
@@ -129,6 +153,7 @@ export function Cursor() {
         <div className="zumi-cursor__spin" />
       </div>
       <div ref={dotRef} className="zumi-cursor__dot is-hidden" aria-hidden />
+      <div ref={labelRef} className="zumi-cursor__label" aria-hidden />
     </>
   );
 }

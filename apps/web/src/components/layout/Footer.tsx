@@ -1,41 +1,40 @@
 'use client';
 
-import { useExperience } from '@/lib/store';
-
 export function Footer() {
-  const toggle = useExperience((s) => s.toggleAssistant);
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-white/8 py-section">
+    <footer className="relative border-t border-black/10 py-16">
       <div className="shell">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr]">
           <div>
-            <p className="font-display text-3xl font-semibold tracking-tightest">
-              Let’s build what’s next.
+            <p className="font-display text-2xl font-bold tracking-tightest">
+              ZUMI<span className="text-accent">.</span>
             </p>
             <p className="mt-4 max-w-sm text-text-secondary">
-              Tell our assistant what you’re building and get a technical scope
-              in minutes.
+              A multidisciplinary studio. Design, video, web, automation and AI,
+              made in one room, shipped live.
             </p>
-            <button
-              onClick={() => toggle(true)}
-              className="mt-6 rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-shadow hover:shadow-[0_0_40px_rgba(79,111,255,0.5)]"
+            <a
+              href="#contact"
+              data-cursor-label="Let’s talk ↗"
+              className="mt-6 inline-flex rounded-full bg-ink px-6 py-3 text-sm font-medium text-white transition-transform hover:-translate-y-0.5"
             >
-              Start with ZUMI
-            </button>
+              Start a project
+            </a>
           </div>
 
           <div>
             <p className="mb-4 text-[11px] uppercase tracking-[0.3em] text-text-secondary">
-              Platform
+              Explore
             </p>
             <ul className="space-y-2 text-sm text-text-secondary">
               {[
-                { label: 'AI Agents', href: '#services' },
-                { label: 'Healthcare', href: '#healthcare' },
-                { label: 'AI Receptionist', href: '#receptionist' },
-                { label: 'Selected Work', href: '#work' },
-                { label: 'ZUMI Labs', href: '#labs' },
+                { label: 'What we do', href: '#domains' },
+                { label: 'Selected work', href: '#work' },
+                { label: 'All projects', href: '#projects' },
+                { label: 'The studio', href: '#about' },
+                { label: 'Contact', href: '#contact' },
               ].map((x) => (
                 <li key={x.label}>
                   <a href={x.href} className="hover:text-text-primary">
@@ -48,17 +47,20 @@ export function Footer() {
 
           <div>
             <p className="mb-4 text-[11px] uppercase tracking-[0.3em] text-text-secondary">
-              Company
+              Elsewhere
             </p>
             <ul className="space-y-2 text-sm text-text-secondary">
               {[
-                { label: 'About', href: '#about' },
-                { label: 'Work', href: '#work' },
-                { label: 'Team console', href: '/admin' },
-                { label: 'Contact', href: '#' },
+                { label: 'GitHub', href: 'https://github.com/SV-1411' },
+                { label: 'Email', href: 'mailto:atharvalepse0129@gmail.com' },
               ].map((x) => (
                 <li key={x.label}>
-                  <a href={x.href} className="hover:text-text-primary">
+                  <a
+                    href={x.href}
+                    target={x.href.startsWith('http') ? '_blank' : undefined}
+                    rel="noopener noreferrer"
+                    className="hover:text-text-primary"
+                  >
                     {x.label}
                   </a>
                 </li>
@@ -67,9 +69,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-white/8 pt-8 text-xs text-text-secondary md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} ZUMI. Engineering the future of business operations.</span>
-          <span className="font-display tracking-tightest">ZUMI</span>
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-black/10 pt-8 text-xs text-text-secondary md:flex-row md:items-center">
+          <span>© {year} ZUMI. A multidisciplinary studio.</span>
+          <span className="font-display font-bold tracking-tightest">ZUMI.</span>
         </div>
       </div>
     </footer>

@@ -3,20 +3,17 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useExperience } from '@/lib/store';
-import { Magnetic } from '@/components/ui/Magnetic';
 import { EASE } from '@/lib/motion';
 
 const LINKS = [
-  { label: 'Services', href: '#services' },
   { label: 'Work', href: '#work' },
-  { label: 'Healthcare', href: '#healthcare' },
-  { label: 'Labs', href: '#labs' },
+  { label: 'Projects', href: '#projects' },
   { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export function Nav() {
   const loaded = useExperience((s) => s.loaded);
-  const toggle = useExperience((s) => s.toggleAssistant);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -40,10 +37,15 @@ export function Nav() {
       <nav className="shell flex items-center justify-between py-4">
         <a
           href="#"
-          className="font-display text-lg font-semibold tracking-tightest"
-          aria-label="ZUMI — home"
+          className="group flex items-center gap-2 font-display text-lg font-semibold tracking-tightest"
+          aria-label="Shivansh Verma — home"
         >
-          ZUMI
+          <span className="grid h-7 w-7 place-items-center rounded-md bg-accent/15 text-[13px] font-bold text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+            SV
+          </span>
+          <span className="hidden sm:inline">
+            Shivansh <span className="text-text-secondary">× ZUMI</span>
+          </span>
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
@@ -59,14 +61,13 @@ export function Nav() {
           ))}
         </div>
 
-        <Magnetic strength={0.35}>
-          <button
-            onClick={() => toggle(true)}
-            className="rounded-full border border-white/15 px-4 py-2 text-sm text-text-primary transition-colors duration-300 hover:border-accent/60 hover:bg-accent/10"
-          >
-            Build with ZUMI
-          </button>
-        </Magnetic>
+        <a
+          href="#contact"
+          data-cursor-label="Let’s talk ↗"
+          className="rounded-full border border-white/15 px-4 py-2 text-sm text-text-primary transition-colors duration-300 hover:border-accent/60 hover:bg-accent/10"
+        >
+          Book a call
+        </a>
       </nav>
     </motion.header>
   );

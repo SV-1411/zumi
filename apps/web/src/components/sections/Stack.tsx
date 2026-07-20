@@ -16,7 +16,7 @@ export function Stack() {
           className="mb-16"
         />
 
-        <div className="grid gap-px overflow-hidden rounded-3xl border border-white/8 bg-white/5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-px overflow-hidden rounded-3xl border border-black/8 bg-black/5 sm:grid-cols-2 lg:grid-cols-4">
           {STACK.map((group, i) => (
             <motion.div
               key={group.layer}
