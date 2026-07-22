@@ -55,7 +55,9 @@ export function Contact() {
           _replyto: form.email,
         }),
       });
-      if (!res.ok) throw new Error('bad status');
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || String(data.success) !== 'true')
+        throw new Error(data.message || 'not delivered');
       setStatus('done');
       setForm({ name: '', email: '', company: '', message: '' });
     } catch {
