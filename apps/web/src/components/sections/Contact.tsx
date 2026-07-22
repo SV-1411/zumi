@@ -32,13 +32,36 @@ export function Contact() {
     }\n${form.email}`
   )}`;
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.email || !form.name) return;
     setStatus('sending');
-    // no backend on the portfolio — open the visitor's mail client, pre-filled
-    window.location.href = mailto;
-    setTimeout(() => setStatus('done'), 400);
+    try {
+      // FormSubmit delivers straight to the inbox — no backend, no API key
+      const res = await fetch(`https://formsubmit.co/ajax/${EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.company || '—',
+          message: form.message,
+          _subject: `Portfolio inquiry from ${form.name}`,
+          _template: 'table',
+          _captcha: 'false',
+          _replyto: form.email,
+        }),
+      });
+      if (!res.ok) throw new Error('bad status');
+      setStatus('done');
+      setForm({ name: '', email: '', company: '', message: '' });
+    } catch {
+      // never lose a message — fall back to the visitor's mail client
+      setStatus('error');
+    }
   }
 
   return (
