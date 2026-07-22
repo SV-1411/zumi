@@ -26,7 +26,7 @@ export function Loader() {
       setLoaded(true);
       return;
     }
-    setFontSize(`${Math.min(window.innerWidth * 0.26, 340)}px`);
+    setFontSize(`${Math.min(window.innerWidth * 0.15, 150)}px`);
 
     // timer-driven (NOT rAF) so it always completes, rAF is throttled/paused
     // when the tab is hidden or under heavy load; the intro must never hang.
@@ -59,10 +59,10 @@ export function Loader() {
         >
           {/* ghost letterforms so ZUMI always reads even over bright footage */}
           <div
-            className="pointer-events-none absolute select-none font-display font-extrabold tracking-tightest text-black/[0.06]"
+            className="pointer-events-none absolute select-none whitespace-nowrap font-display font-extrabold tracking-tightest text-black/[0.06]"
             style={{ fontSize }}
           >
-            ZUMI
+            SHIVANSH
           </div>
 
           <motion.div
@@ -80,7 +80,7 @@ export function Loader() {
             }}
           >
             <TextVideoMask
-              text="ZUMI"
+              text="SHIVANSH"
               videoUrl={FILM}
               useVideoFile={false}
               backgroundColor="transparent"
@@ -100,7 +100,7 @@ export function Loader() {
             transition={{ duration: 0.5, ease: EASE }}
           >
             <div className="text-[10px] uppercase tracking-[0.5em] text-text-secondary">
-              A multidisciplinary studio
+              Full-stack &amp; AI engineer
             </div>
             <div className="h-px w-[min(40vw,360px)] overflow-hidden bg-black/10">
               <div

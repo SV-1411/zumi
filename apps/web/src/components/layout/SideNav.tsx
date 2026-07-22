@@ -98,13 +98,13 @@ export function SideNav() {
       {/* wordmark — top, centered on mobile / left on desktop */}
       <motion.a
         href="#"
-        aria-label="ZUMI — home"
+        aria-label="Shivansh Verma — home"
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: loaded ? 1 : 0, y: loaded ? 0 : -12 }}
         transition={{ delay: 0.35, duration: 0.7, ease: EASE }}
         className="fixed left-1/2 top-5 z-40 -translate-x-1/2 font-display text-lg font-bold tracking-tightest md:left-6 md:translate-x-0"
       >
-        ZUMI<span className="text-accent">.</span>
+Shivansh<span className="text-accent">.</span>
       </motion.a>
 
       <Rail
@@ -113,7 +113,7 @@ export function SideNav() {
           { icon: <Icon d={I.home} />, label: 'Home', href: '#' },
           { icon: <Icon d={I.work} />, label: 'Work', href: '#work' },
           { icon: <Icon d={I.grid} />, label: 'Projects', href: '#projects' },
-          { icon: <Icon d={I.studio} />, label: 'What we do', href: '#domains' },
+          { icon: <Icon d={I.studio} />, label: 'What I do', href: '#domains' },
         ]}
       />
       <Rail

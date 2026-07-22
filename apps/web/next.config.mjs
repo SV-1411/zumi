@@ -12,16 +12,7 @@ const framerRuntime = join(unframerDir, 'dist', 'framer.js');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // @zumi/db is a TS workspace package -> must be transpiled.
-  transpilePackages: ['three', '@zumi/db', 'unframer'],
-  // Keep Prisma + Neon driver external (don't bundle into serverless functions).
-  serverExternalPackages: [
-    '@prisma/client',
-    '.prisma/client',
-    '@prisma/adapter-neon',
-    '@neondatabase/serverless',
-    'ws',
-  ],
+  transpilePackages: ['three', 'unframer'],
   experimental: {
     optimizePackageImports: ['three', '@react-three/drei', 'framer-motion'],
   },

@@ -9,16 +9,16 @@ import { EASE } from '@/lib/motion';
 
 const PRINCIPLES = [
   {
-    title: 'One room, every craft',
-    body: 'Design, motion, engineering and automation sit together. No hand-offs between agencies, no telephone game, just the work.',
+    title: 'One head, every craft',
+    body: 'Design, motion, engineering and automation live in one place. No hand-offs, no telephone game, just the work.',
   },
   {
     title: 'Ship, then sharpen',
-    body: 'We get a real, working version live fast, then refine it in the open. Momentum beats perfection stuck in a folder.',
+    body: 'I get a real, working version live fast, then refine it in the open. Momentum beats perfection stuck in a folder.',
   },
   {
     title: 'Taste + systems',
-    body: 'We care about the pixel and the pipeline. It should feel beautiful and run like clockwork.',
+    body: 'I care about the pixel and the pipeline. It should feel beautiful and run like clockwork.',
   },
   {
     title: 'Range on purpose',
@@ -41,31 +41,30 @@ export function About() {
         <div className="grid gap-16 lg:grid-cols-[1fr_1fr]">
           <div>
             <p className="mb-4 text-[11px] uppercase tracking-[0.42em] text-text-secondary">
-              The studio
+              About me
             </p>
             <RevealText
-              text="A small studio with an unfair range."
+              text="One engineer, an unfair range."
               className="text-balance font-display text-[clamp(1.9rem,4vw,3.2rem)] font-semibold leading-[1.04] tracking-tighter text-gradient"
             />
 
             <Reveal delay={0.1} className="mt-6 space-y-4 text-text-secondary">
               <p>
-                ZUMI is a multidisciplinary studio. We design brands, cut video,
-                build products and wire up the automation that runs behind them,
-                the work most teams split across four vendors, done in one room.
+                I&apos;m Shivansh Verma. I design and build across the whole stack,
+                brands and interfaces, products and APIs, games, robotics and the AI
+                that runs behind them, the work most teams split across four people.
               </p>
               <p>
-                We partner with founders and brands who want it done properly and
-                fast:{' '}
+                I like it done properly and fast:{' '}
                 <span className="text-text-primary">real, shipped, measurable</span>.
-                If we take it on, it goes live.
+                If I take it on, it goes live.
               </p>
             </Reveal>
 
             <Reveal delay={0.2} className="mt-10 grid grid-cols-3 gap-6">
               {[
-                { v: '6', l: 'disciplines' },
-                { v: 'One room', l: 'no hand-offs' },
+                { v: '12+', l: 'shipped projects' },
+                { v: 'End to end', l: 'design to infra' },
                 { v: 'Live', l: 'not slideware' },
               ].map((s) => (
                 <div key={s.l}>

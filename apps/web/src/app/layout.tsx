@@ -14,27 +14,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://zumi.studio'),
+  metadataBase: new URL('https://shivanshverma.dev'),
   title: {
-    default: 'ZUMI — A Multidisciplinary Studio',
-    template: '%s · ZUMI',
+    default: 'Shivansh Verma — Full-stack & AI Engineer',
+    template: '%s · Shivansh Verma',
   },
   description:
-    'ZUMI is a multidisciplinary studio — design, video, web, automation and AI, made in one room and shipped live.',
+    'I build AI products that ship, from AI agents and SaaS to games, robotics and fintech. A few of them, running live.',
   keywords: [
-    'ZUMI',
-    'design studio',
-    'video editing',
-    'web development',
-    'automation',
-    'AI agency',
-    'branding',
-    'creative studio',
+    'Shivansh Verma',
+    'full-stack engineer',
+    'AI engineer',
+    'AI agents',
+    'Next.js',
+    'game developer',
+    'robotics',
+    'portfolio',
   ],
   openGraph: {
-    title: 'ZUMI — A Multidisciplinary Studio',
+    title: 'Shivansh Verma — Full-stack & AI Engineer',
     description:
-      'Design, video, web, automation and AI — one studio, shipped live.',
+      'AI products that ship, agents, SaaS, games, robotics, fintech. Running live.',
     type: 'website',
   },
 };

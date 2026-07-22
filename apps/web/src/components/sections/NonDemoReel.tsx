@@ -89,6 +89,24 @@ function Carousel() {
                   </span>
                 ))}
               </div>
+
+              {(s.liveUrl || s.repoUrl) && (
+                <a
+                  href={s.liveUrl || s.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor-label={s.liveUrl ? 'Open live ↗' : 'View source ↗'}
+                  className="group/link mt-7 inline-flex items-center gap-2 text-sm font-medium text-white"
+                >
+                  <span className="relative">
+                    {s.liveUrl ? 'Open the live project' : 'View source on GitHub'}
+                    <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-white transition-transform duration-300 ease-zumi group-hover/link:scale-x-100" />
+                  </span>
+                  <span className="transition-transform duration-300 group-hover/link:translate-x-1">
+                    →
+                  </span>
+                </a>
+              )}
             </motion.div>
           </AnimatePresence>
 

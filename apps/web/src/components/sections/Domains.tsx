@@ -56,16 +56,16 @@ export function Domains() {
         >
           <div className="max-w-2xl">
             <p className="mb-4 text-[11px] uppercase tracking-[0.42em] text-text-secondary">
-              What we do
+              What I do
             </p>
             <RevealText
-              text="One studio. Every discipline."
+              text="One engineer. Every discipline."
               className="text-balance font-display text-[clamp(2rem,4.5vw,3.6rem)] font-semibold leading-[1.02] tracking-tighter text-gradient"
             />
           </div>
           <p className="max-w-sm text-sm text-text-secondary">
-            Most teams hand you off between agencies. We keep design, engineering,
-            motion and automation in one room, so the work actually ships.
+            Most builds get handed off between people. I keep design, engineering,
+            motion and automation in one head, so the work actually ships.
           </p>
         </motion.div>
 

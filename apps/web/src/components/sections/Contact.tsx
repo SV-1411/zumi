@@ -8,7 +8,7 @@ import { FluidImage } from '@/framer/Client';
 import { InViewMount } from '@/components/fx/InViewMount';
 import { EASE } from '@/lib/motion';
 
-const EMAIL = 'atharvalepse0129@gmail.com';
+const EMAIL = 'shivansh1411@gmail.com';
 
 type Status = 'idle' | 'sending' | 'done' | 'error';
 
@@ -24,27 +24,22 @@ export function Contact() {
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  async function submit(e: React.FormEvent) {
+  const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(
+    `Project inquiry from ${form.name || 'someone'}`
+  )}&body=${encodeURIComponent(
+    `${form.message || ''}\n\n— ${form.name}${
+      form.company ? ` (${form.company})` : ''
+    }\n${form.email}`
+  )}`;
+
+  function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.email || !form.name) return;
     setStatus('sending');
-    try {
-      const res = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'portfolio-contact' }),
-      });
-      if (!res.ok) throw new Error('bad status');
-      setStatus('done');
-    } catch {
-      // graceful fallback, hand off to email so a message is never lost
-      setStatus('error');
-    }
+    // no backend on the portfolio — open the visitor's mail client, pre-filled
+    window.location.href = mailto;
+    setTimeout(() => setStatus('done'), 400);
   }
-
-  const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(
-    `Project inquiry from ${form.name || 'someone'}`
-  )}&body=${encodeURIComponent(form.message || '')}`;
 
   return (
     <section id="contact" className="relative overflow-hidden py-section">
@@ -80,7 +75,7 @@ export function Contact() {
               transition={{ delay: 0.2, duration: 0.8 }}
               className="mt-7 max-w-md text-text-secondary md:text-lg"
             >
-              Tell us what you&apos;re making. If it&apos;s a fit, you&apos;ll hear
+              Tell me what you&apos;re making. If it&apos;s a fit, you&apos;ll hear
               back within a day, usually with a first idea already attached.
             </motion.p>
 
@@ -128,8 +123,8 @@ export function Contact() {
                   Message sent.
                 </h3>
                 <p className="mt-3 max-w-xs text-sm text-text-secondary">
-                  Thanks, {form.name.split(' ')[0] || 'friend'}, it&apos;s in our
-                  inbox. We&apos;ll be in touch shortly.
+                  Thanks, {form.name.split(' ')[0] || 'friend'}, it&apos;s in my
+                  inbox. I&apos;ll be in touch shortly.
                 </p>
               </div>
             ) : (

@@ -22,7 +22,7 @@ export function Hero() {
           transition={{ delay: 0.25, duration: 0.6, ease: EASE }}
           className="mb-6 text-[11px] font-medium uppercase tracking-[0.42em] text-text-secondary"
         >
-          ZUMI, a multidisciplinary studio
+          Shivansh Verma, full-stack &amp; AI engineer
         </motion.p>
 
         <motion.h1
@@ -31,7 +31,7 @@ export function Hero() {
           transition={{ delay: 0.32, duration: 1, ease: EASE }}
           className="max-w-5xl text-balance font-display text-[clamp(2.8rem,8.5vw,7rem)] font-bold leading-[0.9] tracking-tightest text-ink"
         >
-          We make the{' '}
+          I build the{' '}
           <span className="italic text-accent">ambitious</span>
           <span className="text-accent">,</span> real.
         </motion.h1>
@@ -42,11 +42,11 @@ export function Hero() {
           transition={{ delay: 0.5, duration: 0.7, ease: EASE }}
           className="mt-7 max-w-2xl text-balance text-base text-text-secondary md:text-lg"
         >
-          One studio for brands and founders,{' '}
+          I design and engineer production systems,{' '}
           <span className="font-medium text-ink">
-            design, video, web, automation and AI
+            AI agents, SaaS, games, robotics and fintech
           </span>
-         , engineered under one roof and shipped to the world, live.
+         . A few of them are below, running live.
         </motion.p>
 
         <motion.div
@@ -72,10 +72,10 @@ export function Hero() {
           className="mt-11 flex flex-col items-center gap-4 sm:flex-row"
         >
           <FollowCursorButton href="#work" cursorLabel="See the work ↓">
-            See our work
+            See the work
           </FollowCursorButton>
-          <FollowCursorButton href="#domains" variant="ghost" cursorLabel="What we do ↓">
-            What we do
+          <FollowCursorButton href="#domains" variant="ghost" cursorLabel="What I do ↓">
+            What I do
           </FollowCursorButton>
         </motion.div>
       </div>
